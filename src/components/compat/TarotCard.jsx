@@ -53,7 +53,10 @@ const TarotCard = (props) => {
 
   return (
       <div className="tarot-card-wrapper">
-          <img src={tarot_image[tarot_id]} className="tarot-card" alt="tarot" />
+          <div className="tarot-img-wrapper">
+              <img src={tarot_image[tarot_id]} className="tarot-card" alt="tarot"/>
+          </div>
+
           <p>{tarot_map[tarot_id].ru}</p>
       </div>
   );

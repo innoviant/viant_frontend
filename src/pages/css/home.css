@@ -1,0 +1,58 @@
+.home-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 40px;
+  gap: 20px;
+}
+
+.text-content {
+  max-width: 600px;
+}
+
+.home-title {
+  font-size: 54px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.description {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.calculate-button {
+  display: inline-block;
+  padding: 12px 24px;
+  font-size: 16px;
+  color: white;
+  background-color: #f25a34;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.calculate-button:hover {
+  background-color: #d0442a;
+}
+
+.platform-features-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 140px;
+}
+
+.features-title {
+  font-weight: bold;
+  font-size: 24px;
+  color: rgba(14, 102, 102, 1);
+  margin: 0;
+}
+
+.platform-carousel {
+  width: 100%;
+}

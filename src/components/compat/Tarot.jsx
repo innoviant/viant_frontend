@@ -4,7 +4,7 @@ import TarotCard from "./TarotCard.jsx";
 const Tarot = (props) => {
     const { role, name, tarot } = props;
 
-  return (
+    return (
       <div className="tarot-list-object">
           <h2>Карты таро для {role} {name}</h2>
 
@@ -13,7 +13,6 @@ const Tarot = (props) => {
                   <TarotCard key={index} tarot_id={item} />
               ))}
           </div>
-
       </div>
   );
 };

@@ -32,10 +32,12 @@
 }
 
 .prev-button {
+  color: rgba(242, 84, 48, 1);
   margin-right: 20px;
 }
 
 .next-button {
+  color: rgba(242, 84, 48, 1);
   margin-left: 20px;
 }
 
