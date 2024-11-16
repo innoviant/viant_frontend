@@ -1,0 +1,46 @@
+.card-carousel-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.card-display {
+  overflow: hidden;
+  margin: 0 auto;
+}
+
+.car-tarot-card {
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+  object-fit: cover;
+  transition: none;
+}
+
+.card-display:hover .car-tarot-card {
+  box-shadow: none;
+  transform: none;
+}
+
+.carousel-button {
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.prev-button {
+  margin-right: 20px;
+}
+
+.next-button {
+  margin-left: 20px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
