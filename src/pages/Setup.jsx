@@ -13,7 +13,9 @@ const Setup = () => {
   const [candidateBirthdate, setCandidateBirthdate] = useState("");
 
   const setError = (error) => {
-    displayMessage(error, MessageType.ERROR);
+    if (error) {
+      displayMessage(error, MessageType.ERROR);
+    }
   }
 
   const validateDateOfBirth = (birthdate) => {

@@ -9,9 +9,9 @@ import {MessageType} from "../notifications/message.tsx";
 const Reg = () => {
 
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isValid, setIsValid] = useState(true);
   const inputRef = useRef(null);
   const [initialWidth, setInitialWidth] = useState(0);
@@ -55,6 +55,8 @@ const Reg = () => {
         "is_verified": false,
         "name": username
     };
+
+    console.log("user for reg:", user);
 
     post("/auth/register", user).then(response => {
       if (!response.ok) {

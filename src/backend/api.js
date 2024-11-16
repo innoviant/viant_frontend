@@ -3,30 +3,38 @@ export const BASE_API_URL = "/api";
 
 // fetch(`${BASE_API_URL}/books/list`)
 
-export async function post(path, body) {
+export async function post(path, body, js = true) {
     const token = localStorage.getItem('token');
 
-    const res = await fetch(`${BASE_API_URL}${path}`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": token ? `Bearer ${token}` : undefined
-        },
-        body: JSON.stringify(body)
-    });
+    const bodyContent = js
+        ? JSON.stringify(body)
+        : new URLSearchParams(body).toString();
 
-    console.log("Initial data from API:", res)
-    const data = JSON.parse(await res.text());
-    console.log("Data from API:", data)
+    try {
+        const res = await fetch(`${BASE_API_URL}${path}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": js ? "application/json" : "application/x-www-form-urlencoded",
+                "Authorization": token ? `Bearer ${token}` : undefined
+            },
+            body: bodyContent
+        });
 
-    if (res.status === 200) {
-        console.log("Received post:", data);
+        console.log("Initial data from API:", res)
+        const data = JSON.parse(await res.text());
+        console.log("Data from API:", data)
 
-        return {ok: true, data: data};
-    } else {
-        console.log("Error during post:", data.message);
+        if (res.status === 200) {
+            console.log("Received post:", data);
 
-        return {ok: false, data: data};
+            return {ok: true, data: data};
+        } else {
+            console.log("Error during post:", data.message);
+
+            return {ok: false, data: data};
+        }
+    } catch (e) {
+        console.log("POST error:", e);
     }
 }
 

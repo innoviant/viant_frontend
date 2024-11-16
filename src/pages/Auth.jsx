@@ -8,8 +8,8 @@ import {MessageType} from "../notifications/message.tsx";
 
 const Auth = () => {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  const [emailRef, setEmail] = useState(null);
-  const [passwordRef, setPassword] = useState(null);
+  const [emailRef, setEmail] = useState("");
+  const [passwordRef, setPassword] = useState("");
   const [isValid, setIsValid] = useState(true);
 
   const testEmail = email => {
@@ -25,9 +25,10 @@ const Auth = () => {
     const body = {
         username: emailRef,
         password: passwordRef,
+        grant_type: 'password'
     }
 
-    post("/auth/login", body).then(response => {
+    post("/auth/login", body, false).then(response => {
         if (!response.ok) {
             displayMessage(response.data, MessageType.ERROR);
             return;
