@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { URLs } from "../__data__/URLs";
 import "./css/setup.css";
+import {displayMessage} from "../notifications/notifications.js";
+import {MessageType} from "../notifications/message.tsx";
 
 const Setup = () => {
   const [employees, setEmployees] = useState([]);
@@ -9,7 +11,10 @@ const Setup = () => {
   const [employeeBirthdate, setEmployeeBirthdate] = useState("");
   const [candidateName, setCandidateName] = useState("");
   const [candidateBirthdate, setCandidateBirthdate] = useState("");
-  const [error, setError] = useState("");
+
+  const setError = (error) => {
+    displayMessage(error, MessageType.ERROR);
+  }
 
   const validateDateOfBirth = (birthdate) => {
     const today = new Date();
@@ -105,9 +110,9 @@ const Setup = () => {
             value={employeeBirthdate}
             onChange={(e) => setEmployeeBirthdate(e.target.value)}
           />
-          {error && employeeBirthdate && (
-            <div className="error-message">{error}</div>
-          )}
+          {/*{error && employeeBirthdate && (*/}
+          {/*  <div className="error-message">{error}</div>*/}
+          {/*)}*/}
           <button className="action-button" onClick={addEmployee}>
             Добавить сотрудника
           </button>
@@ -155,9 +160,9 @@ const Setup = () => {
             value={candidateBirthdate}
             onChange={(e) => setCandidateBirthdate(e.target.value)}
           />
-          {error && candidateBirthdate && (
-            <div className="error-message">{error}</div>
-          )}
+          {/*{error && candidateBirthdate && (*/}
+          {/*  <div className="error-message">{error}</div>*/}
+          {/*)}*/}
           <button className="action-button" onClick={addCandidate}>
             Добавить кандидата
           </button>
