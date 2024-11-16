@@ -2,7 +2,7 @@ import React from 'react';
 
 const Reg = () => {
   return (
-      <div>
+      <div className="innoviant-wrapper">
           <h2>Registration</h2>
       </div>
   );

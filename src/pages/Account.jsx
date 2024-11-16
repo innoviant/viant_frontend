@@ -2,7 +2,7 @@ import React from 'react';
 
 const Account = () => {
   return (
-      <div>
+      <div className="innoviant-wrapper">
           <h2>Account</h2>
       </div>
   );
