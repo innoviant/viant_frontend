@@ -1,4 +1,8 @@
 export const URLs = {
     home: "/",
-    login: "/login",
+    auth: "/auth",
+    reg: "/reg",
+    account: "/account",
+    compat: "/compat",
+    setup: "/setup"
 }

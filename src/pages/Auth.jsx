@@ -1,7 +1,7 @@
 import React from 'react';
 import {URLs} from "../__data__/URLs";
 
-const Login = () => {
+const Auth = () => {
   return (
       <div className="login-main-wrapper">
         <h2>Hello!</h2>
@@ -10,4 +10,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Auth;
