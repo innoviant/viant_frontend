@@ -28,8 +28,8 @@ const Header = () => {
           <a className="header-title" href={URLs.home}>Innoviant</a>
 
           <div className="header-nav">
-          <a href={URLs.account}>Кабинет</a>
-              <a href={URLs.auth}>Регистрация</a>
+              <a href={URLs.account}>Кабинет</a>
+              <a href={URLs.reg}>Регистрация</a>
           </div>
 
       </div>
