@@ -1,0 +1,36 @@
+.color-circle {
+    border-radius: 50%;
+    min-width: 30vw;
+    min-height: 30vw;
+    padding: 1px;
+
+    position: absolute;
+
+    z-index: -1;
+}
+
+.circle-top-right {
+    margin-top: -30vh;
+    margin-left: 80vw;
+}
+
+.circle-bottom-left {
+    margin-top: 70vh;
+    margin-left: -10vw;
+}
+
+.color-circle-orange {
+    background-color: #F25430;
+}
+
+.color-circle-green {
+    background-color: #0E6666;
+}
+
+.color-circle-yellow {
+    background-color: #FF9929;
+}
+
+.haha {
+    background-color: blueviolet;
+}

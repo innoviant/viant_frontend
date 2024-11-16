@@ -1,0 +1,25 @@
+@import "css/circles.css";
+
+.header-nav {
+    position: absolute;
+    margin-left: 82vw;
+    margin-top: 2vw;
+
+    display: flex;
+}
+
+.header-nav a {
+    text-decoration: none;
+    margin-right: 2vw;
+
+    min-width: calc(1.5vw * 4);
+
+    color: white;
+
+    transition: font-weight 0.3s ease-in;
+}
+
+.header-nav a:hover {
+    font-weight: bold;
+    cursor: pointer;
+}
