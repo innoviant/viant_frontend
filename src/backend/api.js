@@ -1,4 +1,5 @@
-export const BASE_API_URL = "http://stress-testers.ru:8001";
+// export const BASE_API_URL = "http://stress-testers.ru:8001";
+export const BASE_API_URL = "/api";
 
 // fetch(`${BASE_API_URL}/books/list`)
 

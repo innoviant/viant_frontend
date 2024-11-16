@@ -2,6 +2,9 @@ import React, {useState, useRef, useEffect} from 'react';
 import {IonIcon} from '@ionic/react';
 import { mailOutline, personOutline, lockClosedOutline } from 'ionicons/icons';
 import {URLs} from "../__data__/URLs";
+import {post} from "../backend/api";
+import {displayMessage} from "../notifications/notifications";
+import {MessageType} from "../notifications/message.tsx";
 
 const Reg = () => {
 
@@ -52,28 +55,15 @@ const Reg = () => {
         "is_verified": false,
         "name": username
     };
-    try {
-    const response = await fetch('http://stress-testers.ru:8001/auth/register', {
-        method: 'POST',
-        credentials: 'include',
-        body: JSON.stringify(user),
-        headers: {
-            'Detail': 'user',
-            'Content-type': 'application/json; charset=UTF-8',
-            'Accept': 'application/json',
-        },
-    });
 
-    if (!response.ok) {
-      throw new Error(`Ошибка: ${response.status}`);
-    }
+    post("/auth/register", user).then(response => {
+      if (!response.ok) {
+        displayMessage(response.data, MessageType.ERROR);
+        return;
+      }
 
-    const data = await response.json();
-    console.log(data);
-
-  } catch (err) {
-    console.error("Ошибка запроса:", err.message);
-  }
+      console.log("registered");
+    })
 
   }
 
