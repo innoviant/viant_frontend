@@ -92,7 +92,6 @@ const Setup = () => {
     setCandidates(newCandidates);
   };
 
-  // Function to scroll to the selected employee
   const scrollToSelectedEmployee = (index) => {
     const element = document.querySelector(
       `.employee-card:nth-child(${index + 1})`
@@ -118,7 +117,7 @@ const Setup = () => {
   };
 
   return (
-    <div className="innoviant-wrapper inno-wrapper">
+    <div className="inno-wrapper">
       <h1 className="title">Настройка совместимости</h1>
       <div className="sections-wrapper">
         <div className="section">
