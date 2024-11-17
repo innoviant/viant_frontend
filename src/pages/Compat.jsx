@@ -16,11 +16,7 @@ const Compat = () => {
 
     // TODO: calculate Tarot cards from birth
     const calculate_tarot = (birth) => {
-        if (birth.getDate() === 1) {
-            return [5, 7, 12];
-        } else {
-            return [19, 2, 4];
-        }
+        return [1, 2, 3];
     }
 
     // TODO: get Tarot analysis
@@ -30,10 +26,10 @@ const Compat = () => {
             second: []
         }
 
-        tarot_1.map((item, index) => {
+        tarot_1.forEach((item) => {
             req_data.first.push(tarot_map[item].en);
         })
-        tarot_2.map((item, index) => {
+        tarot_2.forEach((item) => {
             req_data.second.push(tarot_map[item].en);
         })
 
