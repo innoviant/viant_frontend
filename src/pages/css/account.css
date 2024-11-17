@@ -1,0 +1,65 @@
+.title {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 30px;
+    color: #333;
+  }
+
+  .sections-wrapper {
+    display: flex;
+    width: 80%;
+    justify-content: space-between;
+  }
+
+  .section {
+    width: 100%;
+  }
+
+  .section-title {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 25px;
+    color: #555;
+  }
+
+  .inno-wrapper {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    font-family: Arial, sans-serif;
+  }
+
+
+  .history-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background-color: #fefefe;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  tr:nth-child(even) {
+    background-color: #eaeaea; /* Зебра-эффект: серый фон для четных строк */
+  }
+
+  tr:hover {
+    background-color: #dddddd; /* Подсветка строки при наведении */
+  }
+
+  .custom-tr {
+    width: 100%;
+    align-items: center;
+  }
+
+  .custom-td {
+    align-items: flex-end;
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+    font-size: 18px;
+  }

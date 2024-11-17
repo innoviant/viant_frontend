@@ -41,6 +41,22 @@ const Auth = () => {
     })
   }
 
+  const forgotPassword = () => {
+    const info = {
+      email: emailRef
+    }
+
+    post("/auth/forgot-password", info).then(response => {
+      if (!response.ok) {
+        displayMessage(response.data, MessageType.ERROR);
+        return;
+      }
+      else if (emailRef !== '') {
+        setPassword(response.data);
+      }
+    })
+  }
+
   return (
       <div className="innoviant-wrapper">
         <div className="form-box login">
@@ -57,10 +73,10 @@ const Auth = () => {
                         <span className="icon">
                             <IonIcon icon={lockClosedOutline} />
                         </span>
-                        <input type="password" onChange={(e) => setPassword(e.target.value)} required/>
+                        <input type="password" onChange={(e) => setPassword(e.target.value)} required value={passwordRef}/>
                         <label>Пароль</label>
                     </div>
-                    <div style={{justifyContent: 'center'}}><a href="#" >Забыли пароль?</a></div>
+                    <div style={{justifyContent: 'center'}}><button onClick={() => forgotPassword()}>Забыли пароль?</button></div>
                     <button type="submit" className="btn" onClick={() => {login()}}>Войти</button>
                     <div className="login-register">
                         <p>Нет аккаунта?<br/>
