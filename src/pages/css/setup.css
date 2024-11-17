@@ -72,6 +72,7 @@
   cursor: pointer;
   transition: background-color 0.3s, transform 0.2s;
   font-size: 14px;
+  margin: 5px;
 }
 
 .action-button:hover,
@@ -121,8 +122,43 @@
   margin-top: 20px;
 }
 
+.scrollable-list {
+  max-height: 300px;
+  overflow-y: auto;
+  transition: background-color 0.1s, transform 0.2s;
+  scroll-behavior: smooth;
+}
+
+.employee-card,
+.candidate-card {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
+  border: 1px solid rgba(242, 84, 48, 1);
+  border-radius: 8px;
+  margin-bottom: 10px;
+  background-color: #fefefe;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+.employee-card:hover,
+.candidate-card:hover {
+  background-color: rgba(154, 154, 154, 1);
+  border-color: rgba(154, 154, 154, 1);
+}
+
 .selected-card {
-  background-color: #333;
+  background-color: rgba(14, 102, 102, 1);
+  border: 1px solid rgba(14, 102, 102, 1);
+}
+
+.selected-card:hover {
+  background-color: rgba(14, 102, 102, 1);
+}
+
+.selected-card span {
+  color: white;
 }
 
 @media (max-width: 768px) {
