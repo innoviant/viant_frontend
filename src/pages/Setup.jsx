@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { URLs } from "../__data__/URLs";
+import { post, get } from "../backend/api";
 import "./css/setup.css";
 import { displayMessage } from "../notifications/notifications.js";
 import { MessageType } from "../notifications/message.tsx";
 
-const MAX_VISIBLE_ENTRIES = 5;
+const MAX_VISIBLE_ENTRIES = 0;
 
 const Setup = () => {
   const [employees, setEmployees] = useState([]);
@@ -37,7 +38,6 @@ const Setup = () => {
       "cand_setup_birth",
       candidates[selectedCandidate].birthdate
     );
-
     localStorage.setItem("emp_setup_name", employees[selectedEmp].name);
     localStorage.setItem("emp_setup_birth", employees[selectedEmp].birthdate);
 
@@ -50,19 +50,56 @@ const Setup = () => {
     return enteredDate > today;
   };
 
+  const retrieveEmps = () => {
+    get("/get_empls").then((response) => {
+      if (!response.ok) {
+        displayMessage(response.data.message, MessageType.ERROR);
+        return;
+      }
+
+      setEmployees(response.data);
+
+      console.log("retrieved");
+    });
+  };
+
   const addEmployee = () => {
     if (employeeName && employeeBirthdate) {
       if (validateDateOfBirth(employeeBirthdate)) {
         setError("Дата рождения не может быть в будущем.");
       } else {
-        setEmployees([
-          ...employees,
-          { name: employeeName, birthdate: employeeBirthdate },
-        ]);
-        setEmployeeName("");
-        setEmployeeBirthdate("");
-        setError("");
+        const employeeData = {
+          name: employeeName,
+          birthdate: employeeBirthdate,
+        };
+
+        post("/add_empl", employeeData).then((response) => {
+          if (!response.ok) {
+            displayMessage(response.data.message, MessageType.ERROR);
+            return;
+          }
+
+          console.log("added: ", response.data.ID);
+        });
+
+        retrieveEmps();
+
+        // if (response.ok) {
+        //   setEmployees([
+        //     ...employees,
+        //     { name: employeeName, birthdate: employeeBirthdate },
+        //   ]);
+        //   setEmployeeName("");
+        //   setEmployeeBirthdate("");
+        //   setError("");
+        // } else {
+        //   setError(
+        //     "Ошибка при добавлении сотрудника: " + response.data.message
+        //   );
+        // }
       }
+    } else {
+      displayMessage("Имя и дата рождения обязательны.", MessageType.ERROR);
     }
   };
 
@@ -115,6 +152,10 @@ const Setup = () => {
       element.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
   };
+
+  useEffect(() => {
+    retrieveEmps();
+  }, []);
 
   return (
     <div className="innoviant-wrapper innos-wrapper">
