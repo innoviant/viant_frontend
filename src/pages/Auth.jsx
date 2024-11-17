@@ -75,11 +75,14 @@ const Auth = () => {
                         <span className="icon">
                             <IonIcon icon={lockClosedOutline} />
                         </span>
-                        <input type="password" onChange={(e) => setPassword(e.target.value)} required value={passwordRef}/>
+                        <input type="text" onChange={(e) => setPassword(e.target.value)} required value={passwordRef}/>
                         <label>Пароль</label>
                     </div>
                     <div className="button-forgot-pass"><button onClick={() => forgotPassword()}>Забыли пароль?</button></div>
-                    <button type="submit" className="btn" onClick={() => {login()}}>Войти</button>
+                    <button type="submit" className="btn" onClick={(e) => {
+                        e.preventDefault();
+                        login();
+                    }}>Войти</button>
                     <div className="login-register">
                         <p>Нет аккаунта?<br/>
                             <a href={URLs.reg}>Зарегистрироваться</a>

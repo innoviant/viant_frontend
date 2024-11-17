@@ -67,7 +67,7 @@ const Reg = () => {
       console.log("registered");
     })
 
-    window.location.href = URLs.home;
+    window.location.href = URLs.auth;
   }
 
 
@@ -111,7 +111,10 @@ const Reg = () => {
               <input type="text" onChange={(e) => setPassword(e.target.value)} required />
               <label>Пароль:</label>
             </div>
-            <button type="submit" className="btn" onClick={() => sendRequest()}>Зарегистрироваться</button>
+            <button type="submit" className="btn" onClick={(e) => {
+              e.preventDefault();
+              sendRequest().then();
+            }}>Зарегистрироваться</button>
             <div className="login-register">
               <p>Уже есть аккаунт?<br/>
               <a href={URLs.auth}>Войти</a>
