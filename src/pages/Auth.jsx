@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {URLs} from "../__data__/URLs";
 import { mailOutline, lockClosedOutline } from 'ionicons/icons';
 import { IonIcon } from '@ionic/react';
@@ -12,6 +12,8 @@ const Auth = () => {
   const [emailRef, setEmail] = useState("");
   const [passwordRef, setPassword] = useState("");
   const [isValid, setIsValid] = useState(true);
+
+  const [tokenValue, setTokenValue] = useState("");
 
     const navigate = useNavigate();
 
@@ -31,26 +33,18 @@ const Auth = () => {
         grant_type: 'password'
     }
 
-      let r = true;
-
     post("/auth/login", body, false).then(response => {
         if (!response.ok) {
             displayMessage(response.data, MessageType.ERROR);
-            r = false;
             return;
         }
 
         console.log("at:", response.data.access_token);
-
-        localStorage.setItem("access_token", response.data.access_token);
-        localStorage.setItem("token_type", response.data.token_type);
+        setTokenValue(response.data.access_token);
+        // localStorage.setItem("token_type", response.data.token_type);
 
         console.log("logged in");
     })
-
-      if (r) {
-          window.location.href = URLs.home;
-      }
   }
 
   const forgotPassword = () => {
@@ -68,6 +62,13 @@ const Auth = () => {
     //   }
     // })
   }
+
+  useEffect(() => {
+      if (tokenValue) {
+          localStorage.setItem("access_token", tokenValue);
+          window.location.href = URLs.home;
+      }
+  }, [tokenValue])
 
   return (
       <div className="innoviant-wrapper">
