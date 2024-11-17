@@ -122,7 +122,7 @@ const Compat = () => {
                 return;
             }
 
-            setConclusion(response.data.analysis);
+            setConclusion(gen_to_html(response.data.analysis));
         })
     }
 
