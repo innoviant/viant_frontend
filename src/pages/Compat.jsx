@@ -45,6 +45,7 @@ const Compat = () => {
     // calculate Tarot cards from birth
     const calculate_tarot = (birthData) => {
         const birth = new Date(birthData);
+        console.log('birth:', birthData, birth);
 
         const reduce_to_tarot = (num) => {
             while (num > 22) {
@@ -115,9 +116,14 @@ const Compat = () => {
             fate_matrix: pyth_text
         }
 
-        // ... /concl
+        post("/concl", req_data).then((response) => {
+            if (!response.ok) {
+                displayMessage("Ошибка при подведении итого:" + response.message, MessageType.ERROR);
+                return;
+            }
 
-        setConclusion("Сотрудник и кандидат подходят друг другу, потому что...");
+            setConclusion(response.data.analysis);
+        })
     }
 
     // calculate Pythagoras from birth
@@ -128,21 +134,24 @@ const Compat = () => {
         const month = birth.getMonth() + 1;
         const year = birth.getFullYear();
 
-        const allDigits = `${day}${month}${year}`.replace(/0/g, '');
-        const firstNumber = allDigits.split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+        const reduce_to_range = (num) => {
+            return num % 5;
+        };
 
-        const secondNumber = firstNumber.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
-
-        const firstDigit = parseInt(`${day}${month}${year}`[0]);
-        const thirdNumber = firstNumber - (firstDigit * 2);
-
-        const fourthNumber = thirdNumber.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+        const dayNum = reduce_to_range(day);
+        const monthNum = reduce_to_range(month);
+        const yearNum = reduce_to_range(year);
 
         return [
-            firstNumber,
-            secondNumber,
-            thirdNumber,
-            fourthNumber
+            dayNum,
+            monthNum,
+            yearNum,
+            reduce_to_range(day + month),
+            reduce_to_range(month + year),
+            reduce_to_range(day + year),
+            reduce_to_range(day + month + year),
+            reduce_to_range(dayNum + monthNum + yearNum),
+            reduce_to_range(dayNum + monthNum + dayNum)
         ];
     }
 
@@ -194,7 +203,11 @@ const Compat = () => {
           </div>
 
           <h1 className="compat-title conclusion-compat">Итог и рекомендации</h1>
-          <div>{conclusion}</div>
+          <div className="analysis-wrapper">
+              <div
+                  dangerouslySetInnerHTML={{__html: conclusion}}
+              />
+          </div>
       </div>
   );
 };

@@ -57,7 +57,12 @@ const Setup = () => {
         return;
       }
 
-      setEmployees(response.data);
+      const formattedEmployees = response.data.map((emp) => {
+          const dateStr = String(emp.birthdate).split("T")[0];
+          return { name: emp.name, birthdate: dateStr };
+      });
+
+      setEmployees(formattedEmployees);
 
       console.log("retrieved");
     });
@@ -79,24 +84,20 @@ const Setup = () => {
             return;
           }
 
+          const emp = response.data;
+
+          const dateStr = String(emp.birthdate).split("T")[0];
+          setEmployees([
+            ...employees,
+            { name: emp.name, birthdate: dateStr, ID: emp.ID },
+          ]);
+
           console.log("added: ", response.data.ID);
         });
 
-        retrieveEmps();
 
-        // if (response.ok) {
-        //   setEmployees([
-        //     ...employees,
-        //     { name: employeeName, birthdate: employeeBirthdate },
-        //   ]);
-        //   setEmployeeName("");
-        //   setEmployeeBirthdate("");
-        //   setError("");
-        // } else {
-        //   setError(
-        //     "Ошибка при добавлении сотрудника: " + response.data.message
-        //   );
-        // }
+        setEmployeeName("");
+        setEmployeeBirthdate("");
       }
     } else {
       displayMessage("Имя и дата рождения обязательны.", MessageType.ERROR);
@@ -157,6 +158,10 @@ const Setup = () => {
     retrieveEmps();
   }, []);
 
+  useEffect(() => {
+    console.log('emps:', employees);
+  }, [employees]);
+
   return (
     <div className="innoviant-wrapper innos-wrapper">
       <h1 className="title">Настройка совместимости</h1>
@@ -183,7 +188,7 @@ const Setup = () => {
                       onClick={() => handleEmployeeClick(index)}
                     >
                       <td className="custom-td">{employee.name}</td>
-                      <td className="custom-td">{employee.birthdate}</td>
+                      <td className="custom-td">{employee.birthdate.split('T')[0]}</td>
                       <td className="custom-td">
                         <button
                           className="delete-button"

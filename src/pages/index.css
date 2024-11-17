@@ -28,6 +28,25 @@
   text-align: center;
 }
 
+.button-forgot-pass {
+    display: flex;
+    align-items: center;
+}
+
+.button-forgot-pass button {
+    background: none;
+    border: none;
+
+    cursor: pointer;
+    transition: 0.3s ease-in;
+
+    margin-bottom: 20px;
+}
+
+.button-forgot-pass button:hover {
+    font-weight: bold;
+}
+
 .input-box {
     position: relative;
     width: 100%;

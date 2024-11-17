@@ -39,6 +39,8 @@ const Auth = () => {
 
         console.log("logged in");
     })
+
+      window.location.href = URLs.home;
   }
 
   const forgotPassword = () => {
@@ -46,15 +48,15 @@ const Auth = () => {
       email: emailRef
     }
 
-    post("/auth/forgot-password", info).then(response => {
-      if (!response.ok) {
-        displayMessage(response.data, MessageType.ERROR);
-        return;
-      }
-      else if (emailRef !== '') {
-        setPassword(response.data);
-      }
-    })
+    // post("/auth/forgot-password", info).then(response => {
+    //   if (!response.ok) {
+    //     displayMessage(response.data, MessageType.ERROR);
+    //     return;
+    //   }
+    //   else if (emailRef !== '') {
+    //     setPassword(response.data);
+    //   }
+    // })
   }
 
   return (
@@ -76,7 +78,7 @@ const Auth = () => {
                         <input type="password" onChange={(e) => setPassword(e.target.value)} required value={passwordRef}/>
                         <label>Пароль</label>
                     </div>
-                    <div style={{justifyContent: 'center'}}><button onClick={() => forgotPassword()}>Забыли пароль?</button></div>
+                    <div className="button-forgot-pass"><button onClick={() => forgotPassword()}>Забыли пароль?</button></div>
                     <button type="submit" className="btn" onClick={() => {login()}}>Войти</button>
                     <div className="login-register">
                         <p>Нет аккаунта?<br/>
