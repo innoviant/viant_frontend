@@ -121,6 +121,10 @@
   margin-top: 20px;
 }
 
+.selected-card {
+  background-color: #333;
+}
+
 @media (max-width: 768px) {
   .inno-wrapper {
     padding: 10px;

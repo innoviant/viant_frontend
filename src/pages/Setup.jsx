@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { URLs } from "../__data__/URLs";
 import "./css/setup.css";
-import {displayMessage} from "../notifications/notifications.js";
-import {MessageType} from "../notifications/message.tsx";
+import { displayMessage } from "../notifications/notifications.js";
+import { MessageType } from "../notifications/message.tsx";
 
 const Setup = () => {
   const [employees, setEmployees] = useState([]);
@@ -12,11 +12,23 @@ const Setup = () => {
   const [candidateName, setCandidateName] = useState("");
   const [candidateBirthdate, setCandidateBirthdate] = useState("");
 
+  const [selectedCandidate, setSelectedCandidate] = useState(-1);
+  const [selectedEmp, setSelectedEmp] = useState(-1);
+
   const setError = (error) => {
     if (error) {
       displayMessage(error, MessageType.ERROR);
     }
-  }
+  };
+
+  const setUpInput = () => {
+    if (selectedCandidate === -1 || selectedEmp === -1) {
+      return;
+    }
+
+    localStorage.setItem("cand_setup", candidates[selectedCandidate]);
+    localStorage.setItem("emp_setup", employees[selectedEmp]);
+  };
 
   const validateDateOfBirth = (birthdate) => {
     const today = new Date();
@@ -78,12 +90,20 @@ const Setup = () => {
               <tr className="custom-tr">
                 <th className="custom-th">ФИО</th>
                 <th className="custom-th">Дата рождения</th>
-                <th className="custom-th">❌</th>
+                <th className="custom-th"> </th>
               </tr>
             </thead>
             <tbody>
               {employees.map((employee, index) => (
-                <tr className="custom-tr" key={index}>
+                <tr
+                  className={`custom-tr ${
+                    index === selectedEmp ? "selected-card" : ""
+                  }`}
+                  key={index}
+                  onClick={() => {
+                    setSelectedEmp(index);
+                  }}
+                >
                   <td className="custom-td">{employee.name}</td>
                   <td className="custom-td">{employee.birthdate}</td>
                   <td className="custom-td">
@@ -128,12 +148,20 @@ const Setup = () => {
               <tr className="custom-tr">
                 <th className="custom-th">ФИО</th>
                 <th className="custom-th">Дата рождения</th>
-                <th className="custom-th">❌</th>
+                <th className="custom-th"> </th>
               </tr>
             </thead>
             <tbody>
               {candidates.map((candidate, index) => (
-                <tr className="custom-tr" key={index}>
+                <tr
+                  className={`custom-tr ${
+                    index === selectedCandidate ? "selected-card" : ""
+                  }`}
+                  key={index}
+                  onClick={() => {
+                    setSelectedCandidate(index);
+                  }}
+                >
                   <td className="custom-td">{candidate.name}</td>
                   <td className="custom-td">{candidate.birthdate}</td>
                   <td className="custom-td">
@@ -172,7 +200,9 @@ const Setup = () => {
       </div>
       <div className="compat-button-wrapper">
         <a href={URLs.compat}>
-          <button className="compatibility-button">Узнать совместимость</button>
+          <button className="compatibility-button" onClick={() => setUpInput()}>
+            Узнать совместимость
+          </button>
         </a>
       </div>
     </div>
