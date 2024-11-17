@@ -23,11 +23,17 @@ const Setup = () => {
 
   const setUpInput = () => {
     if (selectedCandidate === -1 || selectedEmp === -1) {
+      displayMessage("Необходимо выбрать кандидата и работника", MessageType.WARN);
       return;
     }
 
-    localStorage.setItem("cand_setup", candidates[selectedCandidate]);
-    localStorage.setItem("emp_setup", employees[selectedEmp]);
+    localStorage.setItem("cand_setup_name", candidates[selectedCandidate].name);
+    localStorage.setItem("cand_setup_birth", candidates[selectedCandidate].birthdate);
+
+    localStorage.setItem("emp_setup_name", employees[selectedEmp].name);
+    localStorage.setItem("emp_setup_birth", employees[selectedEmp].birthdate);
+
+    window.location.href = URLs.compat;
   };
 
   const validateDateOfBirth = (birthdate) => {
@@ -199,11 +205,9 @@ const Setup = () => {
         </div>
       </div>
       <div className="compat-button-wrapper">
-        <a href={URLs.compat}>
-          <button className="compatibility-button" onClick={() => setUpInput()}>
-            Узнать совместимость
-          </button>
-        </a>
+        <button className="compatibility-button" onClick={() => setUpInput()}>
+          Узнать совместимость
+        </button>
       </div>
     </div>
   );
