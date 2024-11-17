@@ -5,12 +5,15 @@ import { IonIcon } from '@ionic/react';
 import {post} from "../backend/api";
 import {displayMessage} from "../notifications/notifications";
 import {MessageType} from "../notifications/message.tsx";
+import {useNavigate} from "react-router-dom";
 
 const Auth = () => {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const [emailRef, setEmail] = useState("");
   const [passwordRef, setPassword] = useState("");
   const [isValid, setIsValid] = useState(true);
+
+    const navigate = useNavigate();
 
   const testEmail = email => {
     if (emailRegex.test(email)) {
@@ -28,9 +31,12 @@ const Auth = () => {
         grant_type: 'password'
     }
 
+      let r = true;
+
     post("/auth/login", body, false).then(response => {
         if (!response.ok) {
             displayMessage(response.data, MessageType.ERROR);
+            r = false;
             return;
         }
 
@@ -40,9 +46,11 @@ const Auth = () => {
         localStorage.setItem("token_type", response.data.token_type);
 
         console.log("logged in");
-
-        window.location.href = URLs.home;
     })
+
+      if (r) {
+          window.location.href = URLs.home;
+      }
   }
 
   const forgotPassword = () => {

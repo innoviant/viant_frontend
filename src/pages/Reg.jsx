@@ -1,10 +1,11 @@
 import React, {useState, useRef, useEffect} from 'react';
 import {IonIcon} from '@ionic/react';
-import { mailOutline, personOutline, lockClosedOutline } from 'ionicons/icons';
+import {mailOutline, personOutline, lockClosedOutline, navigate} from 'ionicons/icons';
 import {URLs} from "../__data__/URLs";
 import {post} from "../backend/api";
 import {displayMessage} from "../notifications/notifications";
 import {MessageType} from "../notifications/message.tsx";
+import {useNavigate} from "react-router-dom";
 
 const Reg = () => {
 
@@ -58,16 +59,22 @@ const Reg = () => {
 
     console.log("user for reg:", user);
 
+    let r = true;
+
     post("/auth/register", user).then(response => {
       if (!response.ok) {
         displayMessage(response.data, MessageType.ERROR);
+        r = false;
         return;
       }
 
       console.log("registered");
-
-      window.location.href = URLs.auth;
     })
+
+    if (r) {
+      window.location.href = URLs.auth;
+    }
+
   }
 
 
