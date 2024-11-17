@@ -67,7 +67,7 @@ const Compat = () => {
         return [lifePathNumber, soulCard, personalityCard];
     }
 
-    // TODO: get Tarot analysis
+    // get Tarot analysis
     const tarot_analysis = (tarot_1, tarot_2) => {
         const req_data = {
             first: [],
@@ -91,18 +91,21 @@ const Compat = () => {
         })
     }
 
-    // TODO: get Pythagoras analysis
+    // get Pythagoras analysis
     const pyth_analysis = (pyth_1, pyth_2) => {
         const req_data = {
             first: pyth_1,
             second: pyth_2
         }
 
-        // ... /fate_matrix
+        post("/fate_matrix", req_data).then((response) => {
+            if (!response.ok) {
+                displayMessage("Ошибка при анализе матриц:" + response.message, MessageType.ERROR);
+                return;
+            }
 
-        setPythInfo("Согласно матрицам Пифагора, построенным для выбранных работника и кандидата, можно сказать...");
-
-        concl_analysis(tarotInfo, "pythInfo");
+            setPythInfo(gen_to_html(response.data.analysis));
+        })
     }
 
     // TODO: get results and suggestions
@@ -117,9 +120,30 @@ const Compat = () => {
         setConclusion("Сотрудник и кандидат подходят друг другу, потому что...");
     }
 
-    // TODO: calculate Pythagoras from birth
-    const calculate_pyth = (birth) => {
-        return [2, 1, 3, 0, 3, 2, 1, 4, 2];
+    // calculate Pythagoras from birth
+    const calculate_pyth = (birthData) => {
+        const birth = new Date(birthData);
+
+        const day = birth.getDate();
+        const month = birth.getMonth() + 1;
+        const year = birth.getFullYear();
+
+        const allDigits = `${day}${month}${year}`.replace(/0/g, '');
+        const firstNumber = allDigits.split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+
+        const secondNumber = firstNumber.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+
+        const firstDigit = parseInt(`${day}${month}${year}`[0]);
+        const thirdNumber = firstNumber - (firstDigit * 2);
+
+        const fourthNumber = thirdNumber.toString().split('').reduce((sum, digit) => sum + parseInt(digit), 0);
+
+        return [
+            firstNumber,
+            secondNumber,
+            thirdNumber,
+            fourthNumber
+        ];
     }
 
     const tarot_emp = calculate_tarot(emp.birth);
@@ -152,7 +176,7 @@ const Compat = () => {
           <h2>Анализ карт Таро</h2>
           <div className="analysis-wrapper">
               <div
-                  dangerouslySetInnerHTML={{__html: gen_to_html(tarotInfo)}}
+                  dangerouslySetInnerHTML={{__html: tarotInfo}}
               />
           </div>
 
@@ -163,7 +187,11 @@ const Compat = () => {
           </div>
 
           <h2>Анализ матриц</h2>
-          <div>{pythInfo}</div>
+          <div className="analysis-wrapper">
+              <div
+                  dangerouslySetInnerHTML={{__html: pythInfo}}
+              />
+          </div>
 
           <h1 className="compat-title conclusion-compat">Итог и рекомендации</h1>
           <div>{conclusion}</div>

@@ -4,7 +4,7 @@ import "./css/setup.css";
 import { displayMessage } from "../notifications/notifications.js";
 import { MessageType } from "../notifications/message.tsx";
 
-const MAX_VISIBLE_ENTRIES = 5;
+const MAX_VISIBLE_ENTRIES = 0;
 
 const Setup = () => {
   const [employees, setEmployees] = useState([]);
