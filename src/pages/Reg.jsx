@@ -77,7 +77,6 @@ const Reg = () => {
       setIsValid(true);
     } else {
       setIsValid(false);
-      console.log(email);
     }
   };
 
