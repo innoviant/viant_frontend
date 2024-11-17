@@ -1,4 +1,4 @@
-.inno-wrapper {
+.innos-wrapper {
   max-width: 1200px;
   margin: 20px auto;
   padding: 20px;
@@ -22,6 +22,10 @@
 
 .section {
   width: 45%;
+}
+
+.section:last-child {
+  margin-left: 5vw;
 }
 
 .section-title {

@@ -117,7 +117,7 @@ const Setup = () => {
   };
 
   return (
-    <div className="inno-wrapper">
+    <div className="innoviant-wrapper innos-wrapper">
       <h1 className="title">Настройка совместимости</h1>
       <div className="sections-wrapper">
         <div className="section">
