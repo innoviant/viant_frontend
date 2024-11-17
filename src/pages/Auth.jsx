@@ -34,13 +34,15 @@ const Auth = () => {
             return;
         }
 
+        console.log("at:", response.data.access_token);
+
         localStorage.setItem("access_token", response.data.access_token);
         localStorage.setItem("token_type", response.data.token_type);
 
         console.log("logged in");
-    })
 
-      window.location.href = URLs.home;
+        window.location.href = URLs.home;
+    })
   }
 
   const forgotPassword = () => {

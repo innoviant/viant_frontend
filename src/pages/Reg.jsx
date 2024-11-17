@@ -65,9 +65,9 @@ const Reg = () => {
       }
 
       console.log("registered");
-    })
 
-    window.location.href = URLs.auth;
+      window.location.href = URLs.auth;
+    })
   }
 
 
