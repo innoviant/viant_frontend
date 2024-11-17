@@ -1,2 +1,6 @@
 @import "css/tarot.css";
 @import "css/pyth.css";
+
+.analysis-wrapper {
+    max-width: 90vw;
+}

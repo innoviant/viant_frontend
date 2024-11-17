@@ -1,26 +1,70 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Tarot from "../components/compat/Tarot.jsx";
 import FateMatrix from "../components/compat/FateMatrix.jsx";
 import {tarot_map} from "../__data__/Tarot_map";
+import {post} from "../backend/api";
+import {displayMessage} from "../notifications/notifications";
+import {MessageType} from "../notifications/message.tsx";
 
 const Compat = () => {
-    // TODO: get this info from local storage
+    function gen_to_html(text) {
+        return text
+            .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+            .replace(/#/g, "")
+            .replace(/(\d\.)/g, '\n$1')
+            .replace(/\n/g, "<br/>")
+    }
+
+    const setup = {
+        candidate: {
+            name: localStorage.getItem("cand_setup_name"),
+            birth: localStorage.getItem("cand_setup_birth")
+        },
+        emp: {
+            name: localStorage.getItem("emp_setup_name"),
+            birth: localStorage.getItem("emp_setup_birth")
+        },
+    }
+
     const candidate = {
-        name: "Иван Сидоров",
-        birth: new Date('01-01-2001')
+        name: setup.candidate.name ? setup.candidate.name : "",
+        birth: setup.candidate.birth ? setup.candidate.birth : "01.01.2000"
     };
     const emp = {
-        name: "Пётр Сергеев",
-        birth: new Date('02-02-2002')
+        name: setup.emp.name ? setup.emp.name : "",
+        birth: setup.emp.birth ? setup.emp.birth : "01.01.2000"
     };
 
-    // TODO: calculate Tarot cards from birth
-    const calculate_tarot = (birth) => {
-        if (birth.getDate() === 1) {
-            return [5, 7, 12];
-        } else {
-            return [19, 2, 4];
-        }
+    console.log('setup:', setup);
+    console.log(candidate, emp);
+
+    const [tarotInfo, setTarotInfo] = useState("");
+    const [pythInfo, setPythInfo] = useState("");
+    const [conclusion, setConclusion] = useState("");
+
+    // calculate Tarot cards from birth
+    const calculate_tarot = (birthData) => {
+        const birth = new Date(birthData);
+
+        const reduce_to_tarot = (num) => {
+            while (num > 22) {
+                num = num
+                    .toString()
+                    .split("")
+                    .reduce((sum, digit) => sum + parseInt(digit, 10), 0);
+            }
+            return num;
+        };
+
+        const day = birth.getDate();
+        const month = birth.getMonth() + 1;
+        const year = birth.getFullYear();
+
+        const lifePathNumber = reduce_to_tarot(day);
+        const soulCard = reduce_to_tarot(day + month + year);
+        const personalityCard = reduce_to_tarot(day + month + year + soulCard);
+
+        return [lifePathNumber, soulCard, personalityCard];
     }
 
     // TODO: get Tarot analysis
@@ -30,16 +74,21 @@ const Compat = () => {
             second: []
         }
 
-        tarot_1.map((item, index) => {
+        tarot_1.forEach((item) => {
             req_data.first.push(tarot_map[item].en);
         })
-        tarot_2.map((item, index) => {
+        tarot_2.forEach((item) => {
             req_data.second.push(tarot_map[item].en);
         })
 
-        // ... /tarot
+        post("/tarot", req_data).then((response) => {
+            if (!response.ok) {
+                displayMessage("Ошибка при анализе карт Таро:" + response.message, MessageType.ERROR);
+                return;
+            }
 
-        return "Согласно картам Таро, выпавшим работнику и кандидату, можно сказать..."
+            setTarotInfo(gen_to_html(response.data.analysis));
+        })
     }
 
     // TODO: get Pythagoras analysis
@@ -51,7 +100,9 @@ const Compat = () => {
 
         // ... /fate_matrix
 
-        return "Согласно матрицам Пифагора, построенным для выбранных работника и кандидата, можно сказать...";
+        setPythInfo("Согласно матрицам Пифагора, построенным для выбранных работника и кандидата, можно сказать...");
+
+        concl_analysis(tarotInfo, "pythInfo");
     }
 
     // TODO: get results and suggestions
@@ -63,29 +114,33 @@ const Compat = () => {
 
         // ... /concl
 
-        return "Сотрудник и кандидат подходят друг другу, потому что...";
+        setConclusion("Сотрудник и кандидат подходят друг другу, потому что...");
     }
 
     // TODO: calculate Pythagoras from birth
     const calculate_pyth = (birth) => {
-        if (birth.getDate() === 1) {
-            return [2, 1, 3, 0, 3, 2, 1, 4, 2];
-        } else {
-            return [1, 2, 4, 1, 0, 1, 3, 2, 1];
-        }
+        return [2, 1, 3, 0, 3, 2, 1, 4, 2];
     }
 
     const tarot_emp = calculate_tarot(emp.birth);
     const tarot_candidate = calculate_tarot(candidate.birth);
 
-    const tarot_info = tarot_analysis(tarot_candidate, tarot_emp);
-
     const fate_emp = calculate_pyth(emp.birth);
     const fate_candidate = calculate_pyth(candidate.birth);
 
-    const fate_info = pyth_analysis(fate_candidate, fate_emp);
+    useEffect(() => {
+        tarot_analysis(tarot_candidate, tarot_emp);
+    }, []);
 
-    const conclusion = concl_analysis(tarot_info, fate_info);
+    useEffect(() => {
+        pyth_analysis(fate_candidate, fate_emp);
+    }, []);
+
+    useEffect(() => {
+        if (tarotInfo && pythInfo) {
+            concl_analysis(tarotInfo, pythInfo);
+        }
+    }, [tarotInfo, pythInfo]);
 
   return (
       <div className="innoviant-wrapper">
@@ -95,7 +150,11 @@ const Compat = () => {
           <Tarot role={"работника"} name={emp.name} tarot={tarot_emp}/>
 
           <h2>Анализ карт Таро</h2>
-          <div>{tarot_info}</div>
+          <div className="analysis-wrapper">
+              <div
+                  dangerouslySetInnerHTML={{__html: gen_to_html(tarotInfo)}}
+              />
+          </div>
 
           <h2 className="pyth-title">Матрицы Пифагора</h2>
           <div className="fate-matrices-wrapper">
@@ -104,7 +163,7 @@ const Compat = () => {
           </div>
 
           <h2>Анализ матриц</h2>
-          <div>{fate_info}</div>
+          <div>{pythInfo}</div>
 
           <h1 className="compat-title conclusion-compat">Итог и рекомендации</h1>
           <div>{conclusion}</div>

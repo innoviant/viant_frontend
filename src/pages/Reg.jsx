@@ -71,12 +71,13 @@ const Reg = () => {
 
 
   const testEmail = email => {
+    setEmail(email);
+
     if (emailRegex.test(email)) {
       setEmail(email);
       setIsValid(true);
     } else {
       setIsValid(false);
-      console.log(email);
     }
   };
 

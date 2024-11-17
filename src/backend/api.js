@@ -4,11 +4,13 @@ export const BASE_API_URL = "/api";
 // fetch(`${BASE_API_URL}/books/list`)
 
 export async function post(path, body, js = true) {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('access_token');
 
     const bodyContent = js
         ? JSON.stringify(body)
         : new URLSearchParams(body).toString();
+
+    console.log("token: ", token)
 
     try {
         const res = await fetch(`${BASE_API_URL}${path}`, {
@@ -39,7 +41,7 @@ export async function post(path, body, js = true) {
 }
 
 export async function get(path){
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('access_token');
 
     const res = await fetch(`${BASE_API_URL}${path}`, {
         method: "GET",
@@ -63,7 +65,7 @@ export async function get(path){
 }
 
 export async function del(path) {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('access_token');
 
     const res = await fetch(`${BASE_API_URL}${path}`, {
         method: "DELETE",
