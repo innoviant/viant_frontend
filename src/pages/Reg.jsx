@@ -48,12 +48,12 @@ const Reg = () => {
 
   const sendRequest = async () => {
     const user = {
-        "email": email,
-        "password": password,
-        "is_active": true,
-        "is_superuser": false,
-        "is_verified": false,
-        "name": username
+        email: email,
+        password: password,
+        is_active: true,
+        is_superuser: false,
+        is_verified: false,
+        name: username
     };
 
     console.log("user for reg:", user);
@@ -72,10 +72,10 @@ const Reg = () => {
 
   const testEmail = email => {
     if (emailRegex.test(email)) {
+      setEmail(email);
       setIsValid(true);
     } else {
       setIsValid(false);
-      setEmail(email);
       console.log(email);
     }
   };
